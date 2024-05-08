@@ -1,4 +1,8 @@
 
 node_modules
-dist
 .DS_Store
+
+dist
+rust-lib/target
+rust-lib/pkg
+public/modules
