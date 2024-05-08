@@ -1,6 +1,6 @@
 
 # Build Rust package
-wasm-pack build rust-lib --target no-modules
+wasm-pack build rust-lib --target web
 
 # Make the Rust package available
 mkdir public/modules

@@ -1,7 +1,7 @@
 
 const runTest = async (workerPath, expectedResult) => {
   return new Promise((resolve, reject) => {
-    const worker = new Worker(workerPath)
+    const worker = new Worker(workerPath, { type: 'module' })
 
     worker.onmessage = event => {
       if (event.data.result === expectedResult) {
