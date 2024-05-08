@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 import runTest from '../services/runTest'
 
 const TestItem = ({ testWorkerName, expectedResult }) => {
@@ -29,6 +30,11 @@ const TestItem = ({ testWorkerName, expectedResult }) => {
       <p>Rust WebAssembly result: {rustResult}</p>
     </div>
   )
+}
+
+TestItem.propTypes = {
+  testWorkerName: PropTypes.string.isRequired,
+  expectedResult: PropTypes.any.isRequired,
 }
 
 export default TestItem
