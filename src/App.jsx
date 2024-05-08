@@ -1,34 +1,20 @@
-import { useState } from 'react'
-import runTest from './services/runTest'
+import TestItem from "./components/TestItem"
 
 const App = () => {
-  const [jsResult, setJsResult] = useState('-')
-  const [rustResult, setRustResult] = useState('-')
-
-  const testFactorial = async () => {
-    setJsResult('...')
-    setRustResult('...')
-
-    try {
-      const time = await runTest('workers/fibonacci-js.js', 102334155)
-      setJsResult(`${time} ms`)
-    } catch {
-      setJsResult('failed')
-    }
-
-    try {
-      const time = await runTest('workers/fibonacci-rust.js', 102334155n)
-      setRustResult(`${time} ms`)
-    } catch {
-      setRustResult('failed')
-    }
-  }
+  const tests = [
+    {
+      name: 'fibonacci',
+      result: 102334155,
+    },
+  ]
 
   return (
     <div>
-      <button onClick={testFactorial}>Run benchmark</button>
-      <p>Javascript result: {jsResult}</p>
-      <p>Rust WebAssembly result: {rustResult}</p>
+      {tests.map(test =>
+        <TestItem key={test.name}
+          testWorkerName={test.name} expectedResult={test.result}
+        />
+      )}
     </div>
   )
 }
