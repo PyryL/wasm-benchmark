@@ -5,6 +5,11 @@ self.onmessage = async () => {
     await wasm_bindgen('/modules/rust_lib_bg.wasm');
   }
 
+  const t0 = performance.now()
   const result = wasm_bindgen.fibonacci(40)
-  self.postMessage({ payload: result })
+  const t1 = performance.now()
+  self.postMessage({
+    result,
+    time: t1 - t0,
+  })
 }

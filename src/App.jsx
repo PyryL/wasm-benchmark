@@ -1,39 +1,34 @@
 import { useState } from 'react'
+import runTest from './services/runTest'
 
 const App = () => {
-  const [jsResult, setJsResult] = useState(null)
-  const [rustResult, setRustResult] = useState(null)
+  const [jsResult, setJsResult] = useState('-')
+  const [rustResult, setRustResult] = useState('-')
 
-  const testFactorial = () => {
-    const worker = new Worker('workers/fibonacci-js.js')
-    worker.onmessage = event => {
-      setJsResult(new Date() - t0)
-      if (event.data.payload !== 102334155) {
-        console.error('incorrect result from js', event.data.payload)
-      }
-    }
-    const t0 = new Date()
-    worker.postMessage({ })
+  const testFactorial = async () => {
+    setJsResult('...')
+    setRustResult('...')
 
-    const rustWorker = new Worker('workers/fibonacci-rust.js')
-    rustWorker.onmessage = event => {
-      setRustResult(new Date() - t2)
-      if (event.data.payload !== 102334155n) {
-        console.error('incorrect result from rust', event.data.payload)
-      }
+    try {
+      const time = await runTest('workers/fibonacci-js.js', 102334155)
+      setJsResult(`${time} ms`)
+    } catch {
+      setJsResult('failed')
     }
-    rustWorker.onerror = err => {
-      console.error(err)
+
+    try {
+      const time = await runTest('workers/fibonacci-rust.js', 102334155n)
+      setRustResult(`${time} ms`)
+    } catch {
+      setRustResult('failed')
     }
-    const t2 = new Date()
-    rustWorker.postMessage({ })
   }
 
   return (
     <div>
       <button onClick={testFactorial}>Run benchmark</button>
-      <p>Javascript result: {jsResult ?? '-'} ms</p>
-      <p>Rust WebAssembly result: {rustResult ?? '-'} ms</p>
+      <p>Javascript result: {jsResult}</p>
+      <p>Rust WebAssembly result: {rustResult}</p>
     </div>
   )
 }

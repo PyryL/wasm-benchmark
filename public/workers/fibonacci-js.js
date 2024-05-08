@@ -1,7 +1,12 @@
 
 self.onmessage = () => {
+  const t0 = performance.now()
   const result = fibonacci(40)
-  self.postMessage({ payload: result })
+  const t1 = performance.now()
+  self.postMessage({
+    result,
+    time: t1 - t0,
+  })
 }
 
 const fibonacci = n => {
