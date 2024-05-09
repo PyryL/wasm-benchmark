@@ -17,7 +17,7 @@ const TestItem = ({ testWorkerName, expectedResult }) => {
     try {
       const path = `workers/${testWorkerName}-${lang}.js`
       const time = await runTest(path, expectedResult)
-      resultSetter(`${time} ms`)
+      resultSetter(`${time.toFixed(0)} ms`)
     } catch {
       resultSetter('failed')
     }

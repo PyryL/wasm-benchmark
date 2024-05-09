@@ -6,3 +6,8 @@ dist
 rust-lib/target
 rust-lib/pkg
 public/modules
+
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
