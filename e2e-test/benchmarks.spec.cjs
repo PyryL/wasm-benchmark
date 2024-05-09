@@ -4,14 +4,40 @@ describe('benchmarks', () => {
   test('fibonacci works', async ({ page }) => {
     await page.goto('/')
 
-    await expect(page.getByText('Rust WebAssembly result: -').first()).toBeVisible()
+    const jsResult = page.getByTestId('fibonacci-js-cell').first()
+    const rustResult = page.getByTestId('fibonacci-rust-cell').first()
 
-    await page.getByText('Run benchmark').first().click()
+    await expect(jsResult).toBeVisible()
+    await expect(rustResult).toBeVisible()
 
-    await expect(page.getByText('Rust WebAssembly result: ...').first()).toBeVisible()
+    await page.getByTestId('fibonacci-run-btn').first().click()
 
-    await expect(page.getByText(/Rust WebAssembly result: \d+ ms/).first()).toBeVisible()
+    expect(await jsResult.textContent()).toEqual('Running...')
+    expect(await rustResult.textContent()).toEqual('Running...')
 
-    await expect(page.getByText(/Javascript result: \d+ ms/).first()).toBeVisible()
+    await page.locator('data-testid=fibonacci-rust-cell', { hasNotText: 'Running...' }).waitFor()
+
+    expect(await jsResult.textContent()).toMatch(/\d+ ms/)
+    expect(await rustResult.textContent()).toMatch(/\d+ ms/)
+  })
+
+  test('matrix multiplication works', async ({ page }) => {
+    await page.goto('/')
+
+    const jsResult = page.getByTestId('matrix-multiplication-js-cell').first()
+    const rustResult = page.getByTestId('matrix-multiplication-rust-cell').first()
+
+    await expect(jsResult).toBeVisible()
+    await expect(rustResult).toBeVisible()
+
+    await page.getByTestId('matrix-multiplication-run-btn').first().click()
+
+    expect(await jsResult.textContent()).toEqual('Running...')
+    expect(await rustResult.textContent()).toEqual('Running...')
+
+    await page.locator('data-testid=matrix-multiplication-rust-cell', { hasNotText: 'Running...' }).waitFor()
+
+    expect(await jsResult.textContent()).toMatch(/\d+ ms/)
+    expect(await rustResult.textContent()).toMatch(/\d+ ms/)
   })
 })
