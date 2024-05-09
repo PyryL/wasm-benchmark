@@ -36,3 +36,10 @@ npm run lint
 ```
 
 Finally, you can remove all compiled and derived files by running `npm run clean`.
+
+
+## Licenses
+
+JavaScript logo under MIT license from [voodootikigod/logo.js](https://github.com/voodootikigod/logo.js).
+
+Rust logo under CC-BY license from [rust-lang/rust-artwork](https://github.com/rust-lang/rust-artwork/).

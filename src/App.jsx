@@ -1,6 +1,8 @@
 import TestItem from "./components/TestItem"
 import Table from 'react-bootstrap/Table'
 import matrixMultiplicationResult from './constants/matrix-multiplication-result'
+import jsLogo from './assets/js.jpg'
+import rustLogo from './assets/rust.svg'
 
 const App = () => {
   const tests = [
@@ -16,6 +18,10 @@ const App = () => {
     },
   ]
 
+  const alignCenter = {
+    textAlign: 'center',
+  }
+
   return (
     <div style={{ margin: 10 }}>
       <h1>Rust WebAssembly benchmark</h1>
@@ -23,8 +29,8 @@ const App = () => {
         <thead>
           <tr>
             <th>Test</th>
-            <th>Javascript</th>
-            <th>Rust</th>
+            <th style={alignCenter}><img src={jsLogo} height={50} /></th>
+            <th style={alignCenter}><img src={rustLogo} height={50} /></th>
             <th></th>
           </tr>
         </thead>
