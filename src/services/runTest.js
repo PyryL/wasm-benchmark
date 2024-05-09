@@ -2,7 +2,7 @@
 /**
  * Whether the two arguments equal directly or as arrays.
  */
-const equal = (a, b) => {
+export const equal = (a, b) => {
   if (a === b) return true
   if (!Array.isArray(a) || !Array.isArray(b)) return false
   if (a.length !== b.length) return false
