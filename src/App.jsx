@@ -1,10 +1,15 @@
 import TestItem from "./components/TestItem"
+import matrixMultiplicationResult from './constants/matrix-multiplication-result'
 
 const App = () => {
   const tests = [
     {
       name: 'fibonacci',
       result: 102334155,
+    },
+    {
+      name: 'matrix-multiplication',
+      result: matrixMultiplicationResult,
     },
   ]
 

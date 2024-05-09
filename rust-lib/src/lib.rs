@@ -15,6 +15,45 @@ pub fn fibonacci(n: u8) -> u32 {
     fibonacci(n-1) + fibonacci(n-2)
 }
 
+#[wasm_bindgen]
+pub struct Matrix {
+    data: Vec<Vec<u64>>
+}
+
+#[wasm_bindgen]
+impl Matrix {
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> Matrix {
+        Matrix { data: vec![] }
+    }
+
+    pub fn add_row(&mut self, row: Vec<u64>) {
+        self.data.push(row);
+    }
+
+    pub fn get_row(&self, index: usize) -> Vec<u64> {
+        self.data[index].clone()
+    }
+
+    pub fn multiply(&self, other: &Matrix, size: usize) -> Matrix {
+        let mut result = Matrix::new();
+
+        for i in 0..size {
+            let mut result_row = vec![];
+            for j in 0..size {
+                let mut value = 0u64;
+                for k in 0..size {
+                    value += self.data[i][k] * other.data[k][j];
+                }
+                result_row.push(value);
+            }
+            result.add_row(result_row);
+        }
+
+        result
+    }
+}
+
 #[cfg(test)]
 mod test {
     use crate::fibonacci;
