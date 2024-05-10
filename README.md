@@ -4,6 +4,9 @@ _Benchmark Rust WebAssembly vs. JavaScript_
 
 ## Installation
 
+To work with this project, you need to have [Rust & Cargo](https://www.rust-lang.org/tools/install)
+and [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) installed.
+
 After cloning this repository run the following commands:
 
 ```
