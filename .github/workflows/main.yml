@@ -28,3 +28,9 @@ jobs:
           platforms: linux/amd64
           push: ${{ github.event_name == 'push' }}
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/wasm-benchmark:latest
+      - name: Trigger Render deployment
+        uses: sws2apps/render-deployment@v1.6.0
+        if: ${{ github.event_name == 'push' }}
+        with:
+          serviceId: ${{ secrets.RENDER_SERVICEID }}
+          apiKey: ${{ secrets.RENDER_APIKEY }}
