@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import PropTypes from 'prop-types'
@@ -48,6 +48,10 @@ const TestItem = ({ title, testWorkerName, expectedResult }) => {
       <td style={alignCenter}><Button onClick={startTests} data-testid={`${testWorkerName}-run-btn`}>Run benchmark</Button></td>
     </tr>
   )
+}
+
+Result.propTypes = {
+  result: PropTypes.string.isRequired,
 }
 
 TestItem.propTypes = {
