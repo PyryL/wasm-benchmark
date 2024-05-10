@@ -1,0 +1,38 @@
+name: CI/CD
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deployment:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.5
+      - name: Setup Node
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: '20'
+      - name: Setup Rust
+        uses: moonrepo/setup-rust@v1.2.0
+      - name: Install wasm-pack
+        run: npm install -g wasm-pack
+      - name: Install dependencies
+        run: npm install
+      - name: Install E2E browsers
+        run: npx playwright install --with-deps
+
+      - name: Check style
+        run: npm run lint
+      - name: Build
+        run: npm run build
+      - name: Unit tests
+        run: npm run test
+      - name: E2E tests
+        run: npm run test:e2e
+      # todo: save artifact
+      # todo: deploy
