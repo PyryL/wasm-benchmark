@@ -4,6 +4,25 @@ _Benchmark Rust WebAssembly vs. JavaScript_
 
 ## Installation
 
+### Container
+
+This project supports Docker. Simply run
+
+```
+docker build -t wasm-benchmark .
+```
+
+to build the image and start it with
+
+```
+docker container run -p 80:80 wasm-benchmark
+```
+
+The server appears at [localhost:80](http://localhost:80).
+The port can be changed by replacing the first `80` with the new port number.
+
+### Manual installation
+
 To work with this project, you need to have [Rust & Cargo](https://www.rust-lang.org/tools/install)
 and [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) installed.
 
