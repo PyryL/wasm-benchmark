@@ -1,4 +1,8 @@
 
+mod primality;
+
+pub use primality::nth_prime;
+
 use wasm_bindgen::prelude::*;
 
 /// Recursively calculate the nth item of the Fibonacci sequence.
