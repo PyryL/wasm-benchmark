@@ -16,6 +16,11 @@ const App = () => {
       name: 'matrix-multiplication',
       result: matrixMultiplicationResult,
     },
+    {
+      title: '10000th prime number',
+      name: 'primality',
+      result: 104729,
+    },
   ]
 
   const alignCenter = {
