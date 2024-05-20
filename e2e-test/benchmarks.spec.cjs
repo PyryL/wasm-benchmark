@@ -40,4 +40,24 @@ describe('benchmarks', () => {
     expect(await jsResult.textContent()).toMatch(/\d+ ms/)
     expect(await rustResult.textContent()).toMatch(/\d+ ms/)
   })
+
+  test('primality works', async ({ page }) => {
+    await page.goto('/')
+
+    const jsResult = page.getByTestId('primality-js-cell').first()
+    const rustResult = page.getByTestId('primality-rust-cell').first()
+
+    await expect(jsResult).toBeVisible()
+    await expect(rustResult).toBeVisible()
+
+    await page.getByTestId('primality-run-btn').first().click()
+
+    expect(await jsResult.textContent()).toEqual('Running...')
+    expect(await rustResult.textContent()).toEqual('Running...')
+
+    await page.locator('data-testid=primality-rust-cell', { hasNotText: 'Running...' }).waitFor()
+
+    expect(await jsResult.textContent()).toMatch(/\d+ ms/)
+    expect(await rustResult.textContent()).toMatch(/\d+ ms/)
+  })
 })
