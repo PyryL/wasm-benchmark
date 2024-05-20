@@ -40,6 +40,7 @@ ADD babel.config.cjs .
 
 RUN npm run lint
 RUN npm run test
+RUN cargo test --manifest-path rust-lib/Cargo.toml
 RUN npm run test:e2e
 
 
