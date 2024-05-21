@@ -1,4 +1,4 @@
-import TestItem from "./components/TestItem"
+import TestItem from './components/TestItem'
 import Table from 'react-bootstrap/Table'
 import matrixMultiplicationResult from './constants/matrix-multiplication-result'
 import jsLogo from './assets/js.jpg'

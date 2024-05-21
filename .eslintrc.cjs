@@ -20,7 +20,7 @@ module.exports = {
   ],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
-  plugins: ['react-refresh'],
+  plugins: ['react-refresh', '@stylistic/js'],
   rules: {
     'react/jsx-no-target-blank': 'off',
     'react-refresh/only-export-components': [
@@ -43,5 +43,19 @@ module.exports = {
     'no-var': 'error',
     'prefer-const': ['error', { destructuring: 'all' }],
     'require-await': 'error',
+    '@stylistic/js/max-len': ['error', { code: 100 }],
+    '@stylistic/js/arrow-spacing': ['error', { before: true, after: true }],
+    '@stylistic/js/comma-dangle': ['error', {
+      arrays: 'always-multiline',
+      objects: 'always-multiline',
+      imports: 'always-multiline',
+      exports: 'always-multiline',
+      functions: 'ignore',
+    }],
+    '@stylistic/js/eol-last': 'error',
+    '@stylistic/js/indent': ['error', 2],
+    '@stylistic/js/no-multi-spaces': 'error',
+    '@stylistic/js/no-trailing-spaces': 'error',
+    '@stylistic/js/quotes': ['error', 'single'],
   },
 }

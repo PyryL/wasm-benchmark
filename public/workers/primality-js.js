@@ -11,7 +11,7 @@ self.onmessage = () => {
 }
 
 /**
- * @param {number} n 
+ * @param {number} n
  * @returns {number} The `n`th prime number, e.g. 5 for `n=3`.
  */
 export const nthPrime = n => {
@@ -67,9 +67,9 @@ const millerTest = (d, n) => {
 }
 
 /**
- * @param {number} base 
- * @param {number} exp 
- * @param {number} mod 
+ * @param {number} base
+ * @param {number} exp
+ * @param {number} mod
  * @returns {number} `base` raised to the power of `exp` in modulo `mod`.
  */
 const modPow = (base, exp, mod) => {

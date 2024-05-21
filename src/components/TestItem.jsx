@@ -43,9 +43,17 @@ const TestItem = ({ title, testWorkerName, expectedResult }) => {
   return (
     <tr>
       <td>{title}</td>
-      <td style={alignCenter} data-testid={`${testWorkerName}-js-cell`}><Result result={jsResult} /></td>
-      <td style={alignCenter} data-testid={`${testWorkerName}-rust-cell`}><Result result={rustResult} /></td>
-      <td style={alignCenter}><Button onClick={startTests} data-testid={`${testWorkerName}-run-btn`}>Run benchmark</Button></td>
+      <td style={alignCenter} data-testid={`${testWorkerName}-js-cell`}>
+        <Result result={jsResult} />
+      </td>
+      <td style={alignCenter} data-testid={`${testWorkerName}-rust-cell`}>
+        <Result result={rustResult} />
+      </td>
+      <td style={alignCenter}>
+        <Button onClick={startTests} data-testid={`${testWorkerName}-run-btn`}>
+          Run benchmark
+        </Button>
+      </td>
     </tr>
   )
 }
