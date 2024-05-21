@@ -1,6 +1,6 @@
 import TestItem from "./components/TestItem"
 import Table from 'react-bootstrap/Table'
-import matrixMultiplicationResult from './constants/matrix-multiplication-result'
+import matmulResult from './constants/matmul-result'
 import jsLogo from './assets/js.jpg'
 import rustLogo from './assets/rust.svg'
 
@@ -13,8 +13,8 @@ const App = () => {
     },
     {
       title: 'Matrix multiplication',
-      name: 'matrix-multiplication',
-      result: matrixMultiplicationResult,
+      name: 'matmul',
+      result: matmulResult,
     },
     {
       title: '10000th prime number',
