@@ -17,6 +17,8 @@ module.exports = {
     '.eslintrc.cjs',
     'rust-lib',
     'public/modules',
+    'coverage',
+    'node_modules',
   ],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
