@@ -2,11 +2,16 @@
 node_modules
 .DS_Store
 
+# built and derived files
 dist
 rust-lib/target
 rust-lib/pkg
 public/modules
 
+# unit tests
+coverage/
+
+# playwright end-to-end tests
 /test-results/
 /playwright-report/
 /blob-report/
