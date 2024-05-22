@@ -1,8 +1,5 @@
 import TestItem from './components/TestItem'
-import Table from 'react-bootstrap/Table'
 import matmulResult from './constants/matmul-result'
-import jsLogo from './assets/js.jpg'
-import rustLogo from './assets/rust.svg'
 
 const App = () => {
   const tests = [
@@ -23,30 +20,23 @@ const App = () => {
     },
   ]
 
-  const alignCenter = {
-    textAlign: 'center',
+  /** @type {import('react').CSSProperties} */
+  const testListStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   }
 
   return (
     <div style={{ margin: 10 }}>
       <h1>Rust WebAssembly benchmark</h1>
-      <Table striped bordered>
-        <thead>
-          <tr>
-            <th>Test</th>
-            <th style={alignCenter}><img src={jsLogo} height={50} /></th>
-            <th style={alignCenter}><img src={rustLogo} height={50} /></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {tests.map(test =>
-            <TestItem key={test.name} title={test.title}
-              testWorkerName={test.name} expectedResult={test.result}
-            />
-          )}
-        </tbody>
-      </Table>
+      <div style={testListStyle}>
+        {tests.map(test =>
+          <TestItem key={test.name} title={test.title}
+            testWorkerName={test.name} expectedResult={test.result}
+          />
+        )}
+      </div>
     </div>
   )
 }
