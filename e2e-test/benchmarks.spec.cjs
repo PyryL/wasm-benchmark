@@ -24,18 +24,18 @@ describe('benchmarks', () => {
   test('matrix multiplication works', async ({ page }) => {
     await page.goto('/')
 
-    const jsResult = page.getByTestId('matrix-multiplication-js-cell').first()
-    const rustResult = page.getByTestId('matrix-multiplication-rust-cell').first()
+    const jsResult = page.getByTestId('matmul-js-cell').first()
+    const rustResult = page.getByTestId('matmul-rust-cell').first()
 
     await expect(jsResult).toBeVisible()
     await expect(rustResult).toBeVisible()
 
-    await page.getByTestId('matrix-multiplication-run-btn').first().click()
+    await page.getByTestId('matmul-run-btn').first().click()
 
     expect(await jsResult.textContent()).toEqual('Running...')
     expect(await rustResult.textContent()).toEqual('Running...')
 
-    await page.locator('data-testid=matrix-multiplication-rust-cell', { hasNotText: 'Running...' }).waitFor()
+    await page.locator('data-testid=matmul-rust-cell', { hasNotText: 'Running...' }).waitFor()
 
     expect(await jsResult.textContent()).toMatch(/\d+ ms/)
     expect(await rustResult.textContent()).toMatch(/\d+ ms/)
