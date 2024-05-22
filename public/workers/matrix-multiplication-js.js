@@ -1,7 +1,7 @@
 
 self.onmessage = () => {
   const size = 700
-  let A = [], B = []
+  const A = [], B = []
   for (let i=0; i<size; i++) {
     A[i] = []
     B[i] = []
@@ -21,7 +21,7 @@ self.onmessage = () => {
 }
 
 const matrixMultiplication = (A, B, size) => {
-  let C = []
+  const C = []
   for (let i=0; i<size; i++) {
     C[i] = []
     for (let j=0; j<size; j++) {

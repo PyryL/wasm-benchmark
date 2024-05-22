@@ -1,4 +1,4 @@
-import { isPrime, nthPrime } from "../public/workers/primality-js";
+import { isPrime, nthPrime } from '../public/workers/primality-js';
 
 describe('primality', () => {
   test('a small number is a prime', () => {

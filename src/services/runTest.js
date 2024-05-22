@@ -13,7 +13,7 @@ export const equal = (a, b) => {
   return true
 }
 
-const runTest = async (workerPath, expectedResult) => {
+const runTest = (workerPath, expectedResult) => {
   return new Promise((resolve, reject) => {
     const worker = new Worker(workerPath, { type: 'module' })
 
@@ -21,11 +21,14 @@ const runTest = async (workerPath, expectedResult) => {
       if (equal(event.data.result, expectedResult)) {
         resolve(event.data.time)
       } else {
-        console.error(`incorrect result from ${workerPath} in ${event.data.time} ms`, event.data.result)
+        console.error(
+          `incorrect result from ${workerPath} in ${event.data.time} ms`,
+          event.data.result
+        )
         reject()
       }
     }
-  
+
     worker.onerror = err => {
       console.error(`worker ${workerPath} errored`, err)
       reject()
