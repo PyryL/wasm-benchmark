@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Title, Paper, Button } from '@mantine/core';
+import { Title, Paper, Button, Loader } from '@mantine/core'
+import { IconPlayerPlay } from '@tabler/icons-react'
 import BarChart from './BarChart'
 import PropTypes from 'prop-types'
 import runTest from '../services/runTest'
@@ -50,7 +51,11 @@ const TestItem = ({ title, testWorkerName, expectedResult }) => {
     <Paper shadow='sm' radius='md' withBorder p='xl' style={testItemStyle}>
       <div style={flexRow}>
         <Title order={2} size='h4'>{title}</Title>
-        <Button onClick={startTests} data-testid={`${testWorkerName}-run-btn`} disabled={isRunning}>
+        <Button onClick={startTests}
+          data-testid={`${testWorkerName}-run-btn`}
+          disabled={isRunning}
+          leftSection={isRunning ? <Loader size='1.2rem' /> : <IconPlayerPlay size={'1.2rem'} />}
+        >
           {isFinished ? 'Rerun' : isRunning ? 'Running...' : 'Run benchmark'}
         </Button>
       </div>
