@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 // import rustLogo from '../assets/rust.svg'
 // import jsLogo from '../assets/js.jpg'
 
+const BAR_ANIMATION_FPS = 30
+
 const useElementWidth = () => {
   const ref = useRef(null)
   const [width, setWidth] = useState(0)
@@ -34,11 +36,16 @@ const BarChart = ({ jsResult, rustResult }) => {
   const [jsWidth, setJsWidth] = useState(0)
   const [rustWidth, setRustWidth] = useState(0)
 
+  const [refreshCounter, setRefreshCounter] = useState(0)
+  const [jsRunStartDate, setJsRunStartDate] = useState(null)
+  const [rustRunStartDate, setRustRunStartDate] = useState(null)
+  const [animationInterval, setAnimationInterval] = useState(null)
+
   const updateBarWidths = () => {
     const baseScale = 0.2 // px / millisecond
 
-    const jsValue = (jsResult > 0) ? jsResult : 0
-    const rustValue = (rustResult > 0) ? rustResult : 0
+    const jsValue = (jsResult > 0) ? jsResult : jsRunStartDate ? (new Date() - jsRunStartDate) : 0
+    const rustValue = (rustResult > 0) ? rustResult : rustRunStartDate ? (new Date() - rustRunStartDate) : 0
 
     const maxValue = Math.max(jsValue, rustValue)
     const downscale = maxValue === 0 ? 0 : Math.min(1, containerWidth / (baseScale * maxValue))
@@ -47,7 +54,33 @@ const BarChart = ({ jsResult, rustResult }) => {
     setRustWidth(downscale * baseScale * rustValue)
   }
 
-  useEffect(updateBarWidths, [containerWidth, jsResult, rustResult])
+  useEffect(updateBarWidths, [containerWidth, jsResult, rustResult, jsRunStartDate, rustRunStartDate, refreshCounter])
+
+  useEffect(() => {
+    if (jsResult === -1 && !jsRunStartDate) {
+      setJsRunStartDate(new Date())
+    } else if (jsResult !== -1 && jsRunStartDate) {
+      setJsRunStartDate(null)
+    }
+
+    if (rustResult === -1 && !rustRunStartDate) {
+      setRustRunStartDate(new Date())
+    } else if (rustResult !== -1 && rustRunStartDate) {
+      setRustRunStartDate(null)
+    }
+  }, [jsResult, rustResult])
+
+  useEffect(() => {
+    if ((jsRunStartDate !== null || rustRunStartDate !== null) && !animationInterval) {
+      const interval = setInterval(() => {
+        setRefreshCounter(oldValue => oldValue+1)
+      }, 1000/BAR_ANIMATION_FPS)
+      setAnimationInterval(interval)
+    } else if (jsRunStartDate === null && rustRunStartDate === null) {
+      clearInterval(animationInterval)
+      setAnimationInterval(null)
+    }
+  }, [jsRunStartDate, rustRunStartDate])
 
   const jsStyle = {
     ...styles.bar,
@@ -83,8 +116,8 @@ const styles = {
     width: '100%',
     overflow: 'hidden',
     display: 'flex',
-    flexDirection: 'column',        // VStack
-    alignItems: 'flex-start',       // horizontal align
+    flexDirection: 'column', // VStack
+    alignItems: 'flex-start', // horizontal align
     marginTop: 5,
     marginBottom: 5,
   },
@@ -94,6 +127,7 @@ const styles = {
     marginBottom: 5,
     borderRadius: 6,
     position: 'relative',
+    transition: `width ${1/BAR_ANIMATION_FPS}s linear`,
   },
   resultLabel: {
     height: 'fit-content',

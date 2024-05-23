@@ -11,8 +11,9 @@ const TestItem = ({ title, testWorkerName, expectedResult }) => {
 
   const startTests = async () => {
     setJsResult(-1)
-    setRustResult(-1)
+    setRustResult(null)
     await handleTest('js', setJsResult)
+    setRustResult(-1)
     await handleTest('rust', setRustResult)
   }
 
