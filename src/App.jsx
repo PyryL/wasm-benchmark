@@ -29,15 +29,22 @@ const App = () => {
   }
 
   return (
-    <div style={{ margin: 10 }}>
-      <Title order={1}>Rust WebAssembly benchmark</Title>
-      <div style={testListStyle}>
-        {tests.map(test =>
-          <TestItem key={test.name} title={test.title}
-            testWorkerName={test.name} expectedResult={test.result}
-          />
-        )}
-      </div>
+    <div style={{ padding: 10 }}>
+      <header>
+        <Title order={1}>Rust WebAssembly benchmark</Title>
+      </header>
+      <main>
+        <div style={testListStyle}>
+          {tests.map(test =>
+            <TestItem key={test.name} title={test.title}
+              testWorkerName={test.name} expectedResult={test.result}
+            />
+          )}
+        </div>
+      </main>
+      <footer>
+        Copyright &copy; 2024 Pyry Lahtinen
+      </footer>
     </div>
   )
 }
