@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Button from 'react-bootstrap/Button'
+import { Title, Paper, Button } from '@mantine/core';
 import BarChart from './BarChart'
 import PropTypes from 'prop-types'
 import runTest from '../services/runTest'
@@ -33,10 +33,6 @@ const TestItem = ({ title, testWorkerName, expectedResult }) => {
     padding: 10,
     marginTop: 5,
     marginBottom: 5,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderStyle: 'solid',
-    borderRadius: 5,
   }
 
   /** @type {React.CSSProperties} */
@@ -51,15 +47,15 @@ const TestItem = ({ title, testWorkerName, expectedResult }) => {
   const isFinished = (jsResult > 0 || jsResult === undefined) && (rustResult > 0 || rustResult === undefined)
 
   return (
-    <div style={testItemStyle}>
+    <Paper shadow='sm' radius='md' withBorder p='xl' style={testItemStyle}>
       <div style={flexRow}>
-        <h3>{title}</h3>
+        <Title order={2} size='h4'>{title}</Title>
         <Button onClick={startTests} data-testid={`${testWorkerName}-run-btn`} disabled={isRunning}>
           {isFinished ? 'Rerun' : isRunning ? 'Running...' : 'Run benchmark'}
         </Button>
       </div>
       <BarChart jsResult={jsResult} rustResult={rustResult} />
-    </div>
+    </Paper>
   )
 }
 

@@ -1,3 +1,4 @@
+import { Title } from '@mantine/core';
 import TestItem from './components/TestItem'
 import matmulResult from './constants/matmul-result'
 
@@ -29,7 +30,7 @@ const App = () => {
 
   return (
     <div style={{ margin: 10 }}>
-      <h1>Rust WebAssembly benchmark</h1>
+      <Title order={1}>Rust WebAssembly benchmark</Title>
       <div style={testListStyle}>
         {tests.map(test =>
           <TestItem key={test.name} title={test.title}
