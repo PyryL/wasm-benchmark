@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Title, Paper, Button, Loader, Text, ActionIcon } from '@mantine/core'
+import { Title, Paper, Button, Loader, Text, ActionIcon, useMantineTheme } from '@mantine/core'
 import { IconPlayerPlay, IconInfoCircle } from '@tabler/icons-react'
 import BarChart from './BarChart'
 import PropTypes from 'prop-types'
@@ -24,6 +24,8 @@ const TestDescription = ({ description, style }) => {
 }
 
 const TestItem = ({ title, testWorkerName, expectedResult, description }) => {
+  const theme = useMantineTheme()
+
   // null when not started, -1 when running, >0 when finished, undefined when failed
   const [jsResult, setJsResult] = useState(null)
   const [rustResult, setRustResult] = useState(null)
@@ -50,8 +52,12 @@ const TestItem = ({ title, testWorkerName, expectedResult, description }) => {
   const isRunning = jsResult === -1 || rustResult === -1
   const isFinished = (jsResult > 0 || jsResult === undefined) && (rustResult > 0 || rustResult === undefined)
 
+  const paperShadow = {
+    boxShadow: `0 1px 3px ${theme.colors[theme.primaryColor][9]}46`,
+  }
+
   return (
-    <Paper shadow='sm' radius='md' withBorder p='xl' style={styles.testItem}>
+    <Paper radius='md' withBorder p='xl' style={{ ...paperShadow, ...styles.testItem }}>
       <div style={styles.flexRow}>
         <div style={styles.flexRowLeft}>
           <Title order={2} size='h4'>{title}</Title>

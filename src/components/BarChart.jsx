@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useMantineTheme } from '@mantine/core'
 // import rustLogo from '../assets/rust.svg'
 // import jsLogo from '../assets/js.jpg'
 
@@ -33,6 +34,7 @@ const useElementWidth = () => {
 }
 
 const BarChart = ({ jsResult, rustResult, style }) => {
+  const theme = useMantineTheme()
   const [containerRef, containerWidth] = useElementWidth()
   const [jsWidth, setJsWidth] = useState(0)
   const [rustWidth, setRustWidth] = useState(0)
@@ -85,14 +87,14 @@ const BarChart = ({ jsResult, rustResult, style }) => {
 
   const jsStyle = {
     ...styles.bar,
-    backgroundColor: '#f0db4e',
-    color: '#000000',
+    backgroundColor: theme.colors.javascript[4],
+    color: theme.black,
     width: jsWidth,
   }
   const rustStyle = {
     ...styles.bar,
-    backgroundColor: '#7d492b',
-    color: '#ffffff',
+    backgroundColor: theme.colors.rust[7],
+    color: theme.white,
     width: rustWidth,
   }
 
