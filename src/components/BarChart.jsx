@@ -38,6 +38,8 @@ const BarChart = ({ jsResult, rustResult, style }) => {
   const [containerRef, containerWidth] = useElementWidth()
   const [jsWidth, setJsWidth] = useState(0)
   const [rustWidth, setRustWidth] = useState(0)
+  const [jsTransition, setJsTransition] = useState(false)
+  const [rustTransition, setRustTransition] = useState(false)
 
   const [refreshCounter, setRefreshCounter] = useState(0)
   const [jsRunStartDate, setJsRunStartDate] = useState(null)
@@ -52,9 +54,14 @@ const BarChart = ({ jsResult, rustResult, style }) => {
 
     const maxValue = Math.max(jsValue, rustValue)
     const downscale = maxValue === 0 ? 0 : Math.min(1, containerWidth / (baseScale * maxValue))
+
+    const newJsWidth = downscale * baseScale * jsValue
+    const newRustWidth = downscale * baseScale * rustValue
   
-    setJsWidth(downscale * baseScale * jsValue)
-    setRustWidth(downscale * baseScale * rustValue)
+    setJsTransition(!(jsResult > 0) && newJsWidth > jsWidth)
+    setRustTransition(!(rustResult > 0) && newRustWidth > rustWidth)
+    setJsWidth(newJsWidth)
+    setRustWidth(newRustWidth)
   }
 
   useEffect(updateBarWidths, [containerWidth, jsResult, rustResult, jsRunStartDate, rustRunStartDate, refreshCounter])
@@ -87,6 +94,7 @@ const BarChart = ({ jsResult, rustResult, style }) => {
 
   const jsStyle = {
     ...styles.bar,
+    ...(jsTransition ? styles.barTransition : {}),
     backgroundColor: theme.colors.javascript[4],
     color: theme.black,
     width: jsWidth,
@@ -97,6 +105,7 @@ const BarChart = ({ jsResult, rustResult, style }) => {
   }
   const rustStyle = {
     ...styles.bar,
+    ...(rustTransition ? styles.barTransition : {}),
     backgroundColor: theme.colors.rust[7],
     width: rustWidth,
   }
@@ -139,6 +148,8 @@ const styles = {
     marginBottom: 5,
     borderRadius: 6,
     position: 'relative',
+  },
+  barTransition: {
     transition: `width ${1/BAR_ANIMATION_FPS}s linear`,
   },
   resultLabel: {
