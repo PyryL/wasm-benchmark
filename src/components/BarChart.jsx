@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useMantineTheme } from '@mantine/core'
-// import rustLogo from '../assets/rust.svg'
-// import jsLogo from '../assets/js.jpg'
+import rustLogo from '../assets/rust.svg'
+import jsLogo from '../assets/js.svg'
 
 const BAR_ANIMATION_FPS = 30
 
@@ -91,11 +91,19 @@ const BarChart = ({ jsResult, rustResult, style }) => {
     color: theme.black,
     width: jsWidth,
   }
+  const jsResultLabelStyle = {
+    ...styles.resultLabel,
+    ...(jsWidth < 90 ? styles.resultLabelOutside : {}),
+  }
   const rustStyle = {
     ...styles.bar,
     backgroundColor: theme.colors.rust[7],
-    color: theme.white,
     width: rustWidth,
+  }
+  const rustResultLabelStyle = {
+    ...styles.resultLabel,
+    ...(rustWidth < 90 ? styles.resultLabelOutside : {}),
+    color: theme.white,
   }
 
   const jsText = (jsResult > 0) ? `${jsResult.toFixed(0)} ms` : ''
@@ -104,10 +112,12 @@ const BarChart = ({ jsResult, rustResult, style }) => {
   return (
     <div style={{ ...style, ...styles.container }} ref={containerRef}>
       <div style={jsStyle}>
-        <span style={styles.resultLabel}>{jsText}</span>
+        {jsWidth > 40 && <img src={jsLogo} style={styles.languageLogo} />}
+        <span style={jsResultLabelStyle}>{jsText}</span>
       </div>
       <div style={rustStyle}>
-        <span style={{ ...styles.resultLabel, color: 'white' }}>{rustText}</span>
+        {rustWidth > 40 && <img src={rustLogo} style={styles.languageLogo} />}
+        <span style={rustResultLabelStyle}>{rustText}</span>
       </div>
     </div>
   )
@@ -139,6 +149,18 @@ const styles = {
     right: 5,
     margin: 'auto 0',
     whiteSpace: 'nowrap', // force single line
+  },
+  resultLabelOutside: {
+    right: undefined,
+    left: 'calc(100% + 5px)',
+  },
+  languageLogo: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    padding: 5,
+    maxHeight: '100%',
   },
 }
 
