@@ -1,6 +1,7 @@
 import { Title } from '@mantine/core';
 import TestItem from './components/TestItem'
 import matmulResult from './constants/matmul-result'
+import Footer from './components/Footer'
 
 const App = () => {
   const tests = [
@@ -45,9 +46,7 @@ const App = () => {
           )}
         </div>
       </main>
-      <footer>
-        Copyright &copy; 2024 Pyry Lahtinen
-      </footer>
+      <Footer />
     </div>
   )
 }
