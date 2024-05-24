@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Title, Paper, Button, Loader, Text, ActionIcon, useMantineTheme } from '@mantine/core'
-import { IconPlayerPlay, IconInfoCircle } from '@tabler/icons-react'
+import { IconPlayerPlay, IconInfoCircle, IconInfoCircleFilled } from '@tabler/icons-react'
 import BarChart from './BarChart'
 import PropTypes from 'prop-types'
 import runTest from '../services/runTest'
@@ -20,6 +20,22 @@ const TestDescription = ({ description, style }) => {
 
   return (
     <Text style={{ ...style, ...descriptionStyle }} size='sm'>{description}</Text>
+  )
+}
+
+const DescriptionButton = ({ showDescription, setShowDescription }) => {
+  const Icon = props => showDescription ?
+    <IconInfoCircleFilled {...props} /> :
+    <IconInfoCircle {...props} />
+
+  return (
+    <ActionIcon
+      variant='subtle'
+      aria-label='Show description'
+      onClick={() => setShowDescription(!showDescription)}
+    >
+      <Icon style={{ width: '70%', height: '70%' }} />
+    </ActionIcon>
   )
 }
 
@@ -61,10 +77,7 @@ const TestItem = ({ title, testWorkerName, expectedResult, description }) => {
       <div style={styles.flexRow}>
         <div style={styles.flexRowLeft}>
           <Title order={2} size='h4'>{title}</Title>
-          {isFinished && <ActionIcon variant={showDescription ? 'filled' : 'outline'}
-            aria-label='Show description' onClick={() => setShowDescription(!showDescription)}>
-            <IconInfoCircle style={{ width: '70%', height: '70%' }} />
-          </ActionIcon>}
+          {isFinished && <DescriptionButton showDescription={showDescription} setShowDescription={setShowDescription} />}
         </div>
         <Button onClick={startTests}
           data-testid={`${testWorkerName}-run-btn`}
