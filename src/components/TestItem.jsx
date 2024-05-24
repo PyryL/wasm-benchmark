@@ -23,7 +23,9 @@ const TestDescription = ({ description, style }) => {
   )
 }
 
-const DescriptionButton = ({ showDescription, setShowDescription }) => {
+const DescriptionButton = ({ descriptionState }) => {
+  const [showDescription, setShowDescription] = descriptionState
+
   const Icon = props => showDescription ?
     <IconInfoCircleFilled {...props} /> :
     <IconInfoCircle {...props} />
@@ -41,11 +43,11 @@ const DescriptionButton = ({ showDescription, setShowDescription }) => {
 
 const TestItem = ({ title, testWorkerName, expectedResult, description }) => {
   const theme = useMantineTheme()
+  const [showDescription, setShowDescription] = useState(false)
 
   // null when not started, -1 when running, >0 when finished, undefined when failed
   const [jsResult, setJsResult] = useState(null)
   const [rustResult, setRustResult] = useState(null)
-  const [showDescription, setShowDescription] = useState(false)
 
   const startTests = async () => {
     setJsResult(-1)
@@ -72,24 +74,35 @@ const TestItem = ({ title, testWorkerName, expectedResult, description }) => {
     boxShadow: `0 1px 3px ${theme.colors[theme.primaryColor][9]}46`,
   }
 
+  const runButtonText = isFinished ? 'Rerun' : isRunning ? 'Running...' : 'Run benchmark'
+
+  const showBarChart = (isRunning || isFinished) && !showDescription
+
   return (
     <Paper radius='md' withBorder p='xl' style={{ ...paperShadow, ...styles.testItem }}>
       <div style={styles.flexRow}>
         <div style={styles.flexRowLeft}>
           <Title order={2} size='h4'>{title}</Title>
-          {isFinished && <DescriptionButton showDescription={showDescription} setShowDescription={setShowDescription} />}
+          {isFinished &&
+            <DescriptionButton descriptionState={[showDescription, setShowDescription]} />
+          }
         </div>
-        <Button onClick={startTests}
+        <Button
+          onClick={startTests}
           data-testid={`${testWorkerName}-run-btn`}
           disabled={isRunning}
-          leftSection={isRunning ? <Loader size='1.2rem' /> : <IconPlayerPlay size={'1.2rem'} />}
+          leftSection={isRunning ? <Loader size='1.2rem' /> : <IconPlayerPlay size='1.2rem' />}
         >
-          {isFinished ? 'Rerun' : isRunning ? 'Running...' : 'Run benchmark'}
+          {runButtonText}
         </Button>
       </div>
-      <div style={styles.zstackContainer} className='zstacker'>
-        {(isRunning || isFinished) && !showDescription && <BarChart jsResult={jsResult} rustResult={rustResult} style={styles.zstackItem} />}
-        {((!isRunning && !isFinished) || showDescription) && <TestDescription description={description} style={styles.zstackItem} />}
+      <div style={styles.zstackContainer}>
+        {showBarChart &&
+          <BarChart jsResult={jsResult} rustResult={rustResult} style={styles.zstackItem} />
+        }
+        {!showBarChart &&
+          <TestDescription description={description} style={styles.zstackItem} />
+        }
       </div>
     </Paper>
   )
