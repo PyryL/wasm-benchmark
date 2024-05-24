@@ -9,16 +9,17 @@ const useElementWidth = () => {
   const [width, setWidth] = useState(0)
 
   const startObserving = () => {
-    if (!ref.current) return
+    const targetElem = ref.current
+    if (!targetElem) return
     const observer = new ResizeObserver(entries => {
       for (let entry of entries) {
-        if (entry.target === ref.current) setWidth(entry.contentRect.width)
+        if (entry.target === targetElem) setWidth(entry.contentRect.width)
       }
     })
-    observer.observe(ref.current)
-    setWidth(ref.current.offsetWidth)
+    observer.observe(targetElem)
+    setWidth(targetElem.offsetWidth)
     return () => {
-      observer.unobserve(ref.current)
+      observer.unobserve(targetElem)
       observer.disconnect()
     }
   }
@@ -31,7 +32,7 @@ const useElementWidth = () => {
   ]
 }
 
-const BarChart = ({ jsResult, rustResult }) => {
+const BarChart = ({ jsResult, rustResult, style }) => {
   const [containerRef, containerWidth] = useElementWidth()
   const [jsWidth, setJsWidth] = useState(0)
   const [rustWidth, setRustWidth] = useState(0)
@@ -99,7 +100,7 @@ const BarChart = ({ jsResult, rustResult }) => {
   const rustText = (rustResult > 0) ? `${rustResult.toFixed(0)} ms` : ''
 
   return (
-    <div style={styles.container} ref={containerRef}>
+    <div style={{ ...style, ...styles.container }} ref={containerRef}>
       <div style={jsStyle}>
         <span style={styles.resultLabel}>{jsText}</span>
       </div>
@@ -114,12 +115,11 @@ const BarChart = ({ jsResult, rustResult }) => {
 const styles = {
   container: {
     width: '100%',
+    height: 'fit-content',
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column', // VStack
     alignItems: 'flex-start', // horizontal align
-    marginTop: 5,
-    marginBottom: 5,
   },
   bar: {
     height: 30,
