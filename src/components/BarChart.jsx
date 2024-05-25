@@ -69,6 +69,7 @@ const BarChart = ({ jsResult, rustResult, style }) => {
 
   useEffect(
     updateBarWidths,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [containerWidth, jsResult, rustResult, jsRunStartDate, rustRunStartDate, refreshCounter]
   )
 
@@ -84,6 +85,7 @@ const BarChart = ({ jsResult, rustResult, style }) => {
     } else if (rustResult !== -1 && rustRunStartDate) {
       setRustRunStartDate(null)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jsResult, rustResult])
 
   useEffect(() => {
@@ -96,6 +98,7 @@ const BarChart = ({ jsResult, rustResult, style }) => {
       clearInterval(animationInterval)
       setAnimationInterval(null)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jsRunStartDate, rustRunStartDate])
 
   const jsStyle = {
