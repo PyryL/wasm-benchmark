@@ -102,12 +102,12 @@ const BarChart = ({ jsResult, rustResult, style }) => {
     ...styles.bar,
     ...(jsTransition ? styles.barTransition : {}),
     backgroundColor: theme.colors.javascript[4],
-    color: theme.black,
     width: jsWidth,
   }
   const jsResultLabelStyle = {
     ...styles.resultLabel,
-    ...(jsWidth < 90 ? styles.resultLabelOutside : {}),
+    color: theme.black,
+    ...(jsWidth < 90 ? { ...styles.resultLabelOutside, color: theme.white } : {}),
   }
   const rustStyle = {
     ...styles.bar,
