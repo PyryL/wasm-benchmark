@@ -18,16 +18,27 @@ ENV PATH="/usr/local/binaryen-version_117/bin:${PATH}"
 # install browsers for E2E tests
 RUN npx playwright install --with-deps
 
+
+# install Node modules
 ADD package.json .
+RUN npm install
+
+# Build Rust package
 ADD rust-lib/ rust-lib/
+RUN cargo test --manifest-path rust-lib/Cargo.toml
 ADD build.sh .
+RUN npm run build rust
+
+# Build React app with Vite
 ADD src/ src/
 ADD public/ public/
 ADD index.html .
 ADD vite.config.js .
+ADD postcss.config.cjs .
+RUN npm run build react
 
-RUN npm install
-RUN npm run build
+
+# TEST
 
 ADD playwright.config.cjs .
 ADD .eslintrc.cjs .
@@ -35,12 +46,8 @@ ADD test/ test/
 ADD e2e-test/ e2e-test/
 ADD babel.config.cjs .
 
-
-# TEST
-
 RUN npm run lint
 RUN npm run test
-RUN cargo test --manifest-path rust-lib/Cargo.toml
 RUN npm run test:e2e
 
 
