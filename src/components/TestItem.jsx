@@ -68,7 +68,8 @@ const TestItem = ({ title, testWorkerName, expectedResult, description }) => {
   }
 
   const isRunning = jsResult === -1 || rustResult === -1
-  const isFinished = (jsResult > 0 || jsResult === undefined) && (rustResult > 0 || rustResult === undefined)
+  const isFinished = (jsResult > 0 || jsResult === undefined) &&
+    (rustResult > 0 || rustResult === undefined)
 
   const paperShadow = {
     boxShadow: `0 1px 3px ${theme.colors[theme.primaryColor][9]}46`,
@@ -112,6 +113,21 @@ TestItem.propTypes = {
   title: PropTypes.string.isRequired,
   testWorkerName: PropTypes.string.isRequired,
   expectedResult: PropTypes.any.isRequired,
+  description: PropTypes.string.isRequired,
+}
+
+TestDescription.propTypes = {
+  description: PropTypes.string.isRequired,
+  style: PropTypes.object.isRequired,
+}
+
+DescriptionButton.propTypes = {
+  descriptionState: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.func,
+    ])
+  ).isRequired,
 }
 
 /** @type {Object.<string, React.CSSProperties>} */

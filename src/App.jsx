@@ -9,19 +9,25 @@ const App = () => {
       title: 'Fibonacci sequence',
       name: 'fibonacci',
       result: 102334155,
-      description: 'This benchmark measures the performance of recursion and function call overhead by calculating the 40th Fibonacci number using a naive recursive approach without caching.',
+      description: 'This benchmark measures the performance of recursion \
+      and function call overhead by calculating the 40th Fibonacci number \
+      using a naive recursive approach without caching.',
     },
     {
       title: 'Matrix multiplication',
       name: 'matmul',
       result: matmulResult,
-      description: 'This benchmark evaluates the efficiency in handling large-scale numerical computations and memory operations by performing the multiplication of two 700\u{00d7}700 matrices using a triple nested loop approach.',
+      description: 'This benchmark evaluates the efficiency in handling large-scale numerical \
+       computations and memory operations by performing the multiplication of \
+       two 700\u{00d7}700 matrices using a triple nested loop approach.',
     },
     {
       title: 'Primality test',
       name: 'primality',
       result: 104729,
-      description: 'Find the 10,000th prime number by applying the probabilistic Miller-Rabin primality test to each successive number individually. Benchmarks handling of large integers and random number generation.',
+      description: 'Find the 10,000th prime number by applying the probabilistic Miller-Rabin \
+       primality test to each successive number individually. Benchmarks handling of \
+       large integers and random number generation.',
     },
   ]
 

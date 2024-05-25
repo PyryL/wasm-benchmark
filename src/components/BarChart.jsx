@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useMantineTheme } from '@mantine/core'
 import rustLogo from '../assets/rust.svg'
 import jsLogo from '../assets/js.svg'
+import PropTypes from 'prop-types'
 
 const BAR_ANIMATION_FPS = 30
 
@@ -13,7 +14,7 @@ const useElementWidth = () => {
     const targetElem = ref.current
     if (!targetElem) return
     const observer = new ResizeObserver(entries => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         if (entry.target === targetElem) setWidth(entry.contentRect.width)
       }
     })
@@ -49,22 +50,27 @@ const BarChart = ({ jsResult, rustResult, style }) => {
   const updateBarWidths = () => {
     const baseScale = 0.2 // px / millisecond
 
-    const jsValue = (jsResult > 0) ? jsResult : jsRunStartDate ? (new Date() - jsRunStartDate) : 0
-    const rustValue = (rustResult > 0) ? rustResult : rustRunStartDate ? (new Date() - rustRunStartDate) : 0
+    const jsValue = (jsResult > 0) ? jsResult :
+      jsRunStartDate ? (new Date() - jsRunStartDate) : 0
+    const rustValue = (rustResult > 0) ? rustResult :
+      rustRunStartDate ? (new Date() - rustRunStartDate) : 0
 
     const maxValue = Math.max(jsValue, rustValue)
     const downscale = maxValue === 0 ? 0 : Math.min(1, containerWidth / (baseScale * maxValue))
 
     const newJsWidth = downscale * baseScale * jsValue
     const newRustWidth = downscale * baseScale * rustValue
-  
+
     setJsTransition(!(jsResult > 0) && newJsWidth > jsWidth)
     setRustTransition(!(rustResult > 0) && newRustWidth > rustWidth)
     setJsWidth(newJsWidth)
     setRustWidth(newRustWidth)
   }
 
-  useEffect(updateBarWidths, [containerWidth, jsResult, rustResult, jsRunStartDate, rustRunStartDate, refreshCounter])
+  useEffect(
+    updateBarWidths,
+    [containerWidth, jsResult, rustResult, jsRunStartDate, rustRunStartDate, refreshCounter]
+  )
 
   useEffect(() => {
     if (jsResult === -1 && !jsRunStartDate) {
@@ -173,6 +179,18 @@ const styles = {
     padding: 5,
     maxHeight: '100%',
   },
+}
+
+BarChart.propTypes = {
+  jsResult: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.oneOf([null, undefined]),
+  ]),
+  rustResult: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.oneOf([null, undefined]),
+  ]),
+  style: PropTypes.object.isRequired,
 }
 
 export default BarChart
