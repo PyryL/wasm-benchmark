@@ -59,7 +59,7 @@ WORKDIR /app
 
 COPY --from=build-step /app/dist/ dist/
 ADD package.json .
-RUN npm install -g http-server@^14.1.1
+RUN npm install -g http-server@^14.1.1 && npm cache clean --force
 
 EXPOSE 80
 ENV PORT=80
