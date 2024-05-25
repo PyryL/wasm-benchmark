@@ -67,4 +67,4 @@ ENV PORT=80
 RUN chown node .
 USER node
 
-CMD npm start
+ENTRYPOINT ["npm", "start"]
