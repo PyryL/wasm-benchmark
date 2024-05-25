@@ -99,7 +99,10 @@ const TestItem = ({ title, testWorkerName, expectedResult, description }) => {
       </div>
       <div style={styles.zstackContainer}>
         {showBarChart &&
-          <BarChart testName={testWorkerName} jsResult={jsResult} rustResult={rustResult} style={styles.zstackItem} />
+          <BarChart
+            testName={testWorkerName} style={styles.zstackItem}
+            jsResult={jsResult} rustResult={rustResult}
+          />
         }
         {!showBarChart &&
           <TestDescription description={description} style={styles.zstackItem} />
