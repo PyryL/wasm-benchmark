@@ -34,7 +34,7 @@ const useElementWidth = () => {
   ]
 }
 
-const BarChart = ({ jsResult, rustResult, style }) => {
+const BarChart = ({ testName, jsResult, rustResult, style }) => {
   const theme = useMantineTheme()
   const [containerRef, containerWidth] = useElementWidth()
   const [jsWidth, setJsWidth] = useState(0)
@@ -131,11 +131,11 @@ const BarChart = ({ jsResult, rustResult, style }) => {
     <div style={{ ...style, ...styles.container }} ref={containerRef}>
       <div style={jsStyle}>
         {jsWidth > 40 && <img src={jsLogo} style={styles.languageLogo} />}
-        <span style={jsResultLabelStyle}>{jsText}</span>
+        <span style={jsResultLabelStyle} data-testid={`${testName}-js`}>{jsText}</span>
       </div>
       <div style={rustStyle}>
         {rustWidth > 40 && <img src={rustLogo} style={styles.languageLogo} />}
-        <span style={rustResultLabelStyle}>{rustText}</span>
+        <span style={rustResultLabelStyle} data-testid={`${testName}-rust`}>{rustText}</span>
       </div>
     </div>
   )
@@ -185,6 +185,7 @@ const styles = {
 }
 
 BarChart.propTypes = {
+  testName: PropTypes.string.isRequired,
   jsResult: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.oneOf([null, undefined]),

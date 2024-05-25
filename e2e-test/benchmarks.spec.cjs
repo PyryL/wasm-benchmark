@@ -1,63 +1,47 @@
 const { describe, test, expect } = require('@playwright/test')
 
+/**
+ * @param {import('@playwright/test').Page} page 
+ * @param {string} testName 
+ */
+const testBenchmark = async (page, testName) => {
+  await page.goto('/')
+
+  const button = page.getByTestId(`${testName}-run-btn`).first()
+  const jsResult = page.getByTestId(`${testName}-js`).first()
+  const rustResult = page.getByTestId(`${testName}-rust`).first()
+
+  await expect(jsResult).not.toBeAttached()
+  await expect(rustResult).not.toBeAttached()
+
+  await expect(button).toHaveText('Run benchmark')
+  await button.click()
+  await expect(button).toHaveText('Running...')
+
+  await expect(jsResult).toBeAttached()
+  await expect(rustResult).toBeAttached()
+
+  await page.locator(
+    `data-testid=${testName}-run-btn`,
+    { hasNotText: 'Running...' }
+  ).waitFor({ timeout: 10000 })
+
+  expect(await jsResult.textContent()).toMatch(/\d+ ms/)
+  expect(await rustResult.textContent()).toMatch(/\d+ ms/)
+
+  await expect(button).toHaveText('Rerun')
+}
+
 describe('benchmarks', () => {
   test('fibonacci works', async ({ page }) => {
-    await page.goto('/')
-
-    const jsResult = page.getByTestId('fibonacci-js-cell').first()
-    const rustResult = page.getByTestId('fibonacci-rust-cell').first()
-
-    await expect(jsResult).toBeVisible()
-    await expect(rustResult).toBeVisible()
-
-    await page.getByTestId('fibonacci-run-btn').first().click()
-
-    expect(await jsResult.textContent()).toEqual('Running...')
-    expect(await rustResult.textContent()).toEqual('Running...')
-
-    await page.locator('data-testid=fibonacci-rust-cell', { hasNotText: 'Running...' }).waitFor()
-
-    expect(await jsResult.textContent()).toMatch(/\d+ ms/)
-    expect(await rustResult.textContent()).toMatch(/\d+ ms/)
+    await testBenchmark(page, 'fibonacci')
   })
 
   test('matrix multiplication works', async ({ page }) => {
-    await page.goto('/')
-
-    const jsResult = page.getByTestId('matmul-js-cell').first()
-    const rustResult = page.getByTestId('matmul-rust-cell').first()
-
-    await expect(jsResult).toBeVisible()
-    await expect(rustResult).toBeVisible()
-
-    await page.getByTestId('matmul-run-btn').first().click()
-
-    expect(await jsResult.textContent()).toEqual('Running...')
-    expect(await rustResult.textContent()).toEqual('Running...')
-
-    await page.locator('data-testid=matmul-rust-cell', { hasNotText: 'Running...' }).waitFor()
-
-    expect(await jsResult.textContent()).toMatch(/\d+ ms/)
-    expect(await rustResult.textContent()).toMatch(/\d+ ms/)
+    await testBenchmark(page, 'matmul')
   })
 
   test('primality works', async ({ page }) => {
-    await page.goto('/')
-
-    const jsResult = page.getByTestId('primality-js-cell').first()
-    const rustResult = page.getByTestId('primality-rust-cell').first()
-
-    await expect(jsResult).toBeVisible()
-    await expect(rustResult).toBeVisible()
-
-    await page.getByTestId('primality-run-btn').first().click()
-
-    expect(await jsResult.textContent()).toEqual('Running...')
-    expect(await rustResult.textContent()).toEqual('Running...')
-
-    await page.locator('data-testid=primality-rust-cell', { hasNotText: 'Running...' }).waitFor()
-
-    expect(await jsResult.textContent()).toMatch(/\d+ ms/)
-    expect(await rustResult.textContent()).toMatch(/\d+ ms/)
+    await testBenchmark(page, 'primality')
   })
 })
