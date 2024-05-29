@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "start": "http-server dist",
+    "start": "node backend/index.js",
     "dev": "vite",
     "build": "./build.sh",
     "lint": "eslint . --ext js,jsx --max-warnings 0",
@@ -16,6 +16,7 @@
     "@mantine/core": "^7.10.0",
     "@mantine/hooks": "^7.10.0",
     "@tabler/icons-react": "^3.5.0",
+    "express": "^4.19.2",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

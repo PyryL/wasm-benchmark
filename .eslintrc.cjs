@@ -1,4 +1,5 @@
 
+/** @type {import('eslint').ESLint.ConfigData} */
 module.exports = {
   root: true,
   env: {
@@ -6,6 +7,18 @@ module.exports = {
     es2020: true,
     jest: true,
   },
+  overrides: [
+    {
+      files: ['backend/**/*.js'],
+      parserOptions: {
+        sourceType: 'script',
+      },
+      env: {
+        node: true,
+        commonjs: true,
+      },
+    },
+  ],
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
