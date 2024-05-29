@@ -37,7 +37,8 @@ npm run build
 You can run the development server with
 
 ```
-npm run dev
+npm run dev         # frontend
+npm run start:dev   # backend
 ```
 
 or after running `npm run build` you can serve the production build with
@@ -55,9 +56,18 @@ Tests can be run as follows:
 npm run test
 npm run test:e2e
 npm run lint
+cargo test --manifest-path rust-lib/Cargo.toml
 ```
 
 Finally, you can remove all compiled and derived files by running `npm run clean`.
+
+
+## Development
+
+NPM dependencies are should be saved into correct category.
+Production dependencies are used by the backend.
+Development dependencies are only used by the frontend (not needed after building) and tests
+or they are development tools.
 
 
 ## Licenses

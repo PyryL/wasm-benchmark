@@ -56,7 +56,7 @@ WORKDIR /app
 COPY --from=build-step /app/dist/ dist/
 ADD package.json .
 ADD backend/ backend/
-RUN npm install && npm cache clean --force
+RUN npm install --include prod --no-save && npm cache clean --force
 
 EXPOSE 80
 ENV PORT=80

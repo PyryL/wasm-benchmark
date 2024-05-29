@@ -14,26 +14,23 @@
     "clean": "rm -rf dist public/modules rust-lib/pkg rust-lib/target playwright-report test-results coverage"
   },
   "dependencies": {
-    "@mantine/core": "^7.10.0",
-    "@mantine/hooks": "^7.10.0",
-    "@tabler/icons-react": "^3.5.0",
-    "axios": "^1.7.2",
-    "express": "^4.19.2",
-    "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "express": "^4.19.2"
   },
   "devDependencies": {
     "@babel/core": "^7.24.5",
     "@babel/plugin-transform-runtime": "^7.24.3",
     "@babel/preset-env": "^7.24.5",
     "@babel/preset-react": "^7.24.1",
+    "@mantine/core": "^7.10.0",
+    "@mantine/hooks": "^7.10.0",
     "@playwright/test": "^1.44.0",
     "@stylistic/eslint-plugin-js": "^2.1.0",
+    "@tabler/icons-react": "^3.5.0",
     "@types/node": "^20.12.11",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
+    "axios": "^1.7.2",
     "babel-jest": "^29.7.0",
     "cors": "^2.8.5",
     "eslint": "^8.57.0",
@@ -47,6 +44,9 @@
     "postcss": "^8.4.38",
     "postcss-preset-mantine": "^1.15.0",
     "postcss-simple-vars": "^7.0.1",
+    "prop-types": "^15.8.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "vite": "^5.2.0"
   },
   "jest": {
