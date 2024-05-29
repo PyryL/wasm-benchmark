@@ -4,6 +4,7 @@ import { IconPlayerPlay, IconInfoCircle, IconInfoCircleFilled } from '@tabler/ic
 import BarChart from './BarChart'
 import PropTypes from 'prop-types'
 import runTest from '../services/runTest'
+import { reportBenchmarkResult } from '../services/api'
 
 const TestDescription = ({ description, style }) => {
   /** @type {React.CSSProperties} */
@@ -52,18 +53,24 @@ const TestItem = ({ title, testWorkerName, expectedResult, description }) => {
   const startTests = async () => {
     setJsResult(-1)
     setRustResult(null)
-    await handleTest('js', setJsResult)
+    const jsResultReport = await handleTest('js', setJsResult)
     setRustResult(-1)
-    await handleTest('rust', setRustResult)
+    const rustResultReport = await handleTest('rust', setRustResult)
+    await reportBenchmarkResult(testWorkerName, jsResultReport, rustResultReport, navigator.userAgent)
   }
 
+  /**
+   * @returns {Promise<number?>} The duration in milliseconds (with no decimals) or `null` if failed.
+   */
   const handleTest = async (lang, resultSetter) => {
     try {
       const path = `workers/${testWorkerName}-${lang}.js`
       const time = await runTest(path, expectedResult)
       resultSetter(time)
+      return Math.round(time)
     } catch {
       resultSetter(undefined)
+      return null
     }
   }
 

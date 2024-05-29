@@ -14,7 +14,9 @@
     "clean": "rm -rf dist public/modules rust-lib/pkg rust-lib/target playwright-report test-results coverage"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pg": "^8.11.5"
   },
   "devDependencies": {
     "@babel/core": "^7.24.5",
