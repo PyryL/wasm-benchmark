@@ -31,7 +31,7 @@ module.exports = defineConfig({
   ],
 
   webServer: {
-    command: 'npm run start -- --port 3000',
+    command: 'PORT=3000 npm run start',
     url: 'http://127.0.0.1:3000',
   },
 });
