@@ -56,11 +56,17 @@ const TestItem = ({ title, testWorkerName, expectedResult, description }) => {
     const jsResultReport = await handleTest('js', setJsResult)
     setRustResult(-1)
     const rustResultReport = await handleTest('rust', setRustResult)
-    await reportBenchmarkResult(testWorkerName, jsResultReport, rustResultReport, navigator.userAgent)
+    await reportBenchmarkResult(
+      testWorkerName,
+      jsResultReport,
+      rustResultReport,
+      navigator.userAgent
+    )
   }
 
   /**
-   * @returns {Promise<number?>} The duration in milliseconds (with no decimals) or `null` if failed.
+   * @returns {Promise<number?>} The duration in milliseconds (with no decimals)
+   *  or `null` if failed.
    */
   const handleTest = async (lang, resultSetter) => {
     try {
