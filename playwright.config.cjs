@@ -6,8 +6,6 @@ module.exports = defineConfig({
 
   fullyParallel: true,
 
-  workers: 1,
-
   retries: 0,
 
   reporter: 'list',

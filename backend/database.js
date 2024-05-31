@@ -1,7 +1,6 @@
 const { Client } = require('pg')
-const { databaseUrl } = require('./config')
 
-const client = new Client(databaseUrl)
+const client = new Client(process.env.DATABASE_URL)
 client.connect()
 
 /**
@@ -20,6 +19,5 @@ const insertBenchmark = async (benchmarkName, jsResult, rustResult, browserInfo)
 }
 
 module.exports = {
-  client,
   insertBenchmark,
 }
