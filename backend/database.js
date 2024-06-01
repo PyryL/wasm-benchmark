@@ -1,6 +1,11 @@
 const { Client } = require('pg')
+const { isE2ETest } = require('./config')
 
-const client = new Client(process.env.DATABASE_URL)
+/** @type {Client} */
+const client = isE2ETest ?
+  require('../e2e-test/mocks/pg.cjs').Client() :
+  new Client(process.env.DATABASE_URL)
+
 client.connect()
 
 /**
