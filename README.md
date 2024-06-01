@@ -4,22 +4,31 @@ _Benchmark Rust WebAssembly vs. JavaScript_
 
 ## Installation
 
-### Container
+### Docker
 
-This project supports Docker. Simply run
+Build the image with
 
-```
+```bash
 docker build -t wasm-benchmark .
 ```
 
-to build the image and start it with
+For local development and testing, the container can easily been started by running
 
-```
-docker container run -p 80:80 wasm-benchmark
+```bash
+POSTGRES_PASSWORD=yourpassword docker compose up --build
 ```
 
+Replace `yourpassword` with a random password for the database.
+This compose contains its own database, so you don't have to set it up yourself.
 The server appears at [localhost:80](http://localhost:80).
-The port can be changed by replacing the first `80` with the new port number.
+
+Alternatively, to start the container in production,
+you have to pass `DATABASE_URL` environment variable holding `postgres://...` URL for the database.
+As an example, the start command could look something like this:
+
+```
+docker container run -p 80:80 -e DATABASE_URL=postgres://user:pass@example.com:5432/mydb wasm-benchmark
+```
 
 ### Manual installation
 
@@ -28,36 +37,48 @@ and [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) installed.
 
 After cloning this repository run the following commands:
 
-```
+```bash
 npm install
 npx playwright install
 npm run build
 ```
 
-You can run the development server with
+Create a file called `.env` and add your Postgres URL with key `DATABASE_URL`.
 
-```
-npm run dev
+Then you can run the development server with
+
+```bash
+npm run dev         # frontend
+npm run start:dev   # backend
 ```
 
 or after running `npm run build` you can serve the production build with
 
-```
+```bash
 npm start
 ```
 
-Run `npm run build` after making changes to `rust-lib` to bring the changes to the server.
+Run `npm run build` after making changes to `rust-lib/` to bring the changes to the server.
 Also run `npm run build` after any changes to update the production build.
 
 Tests can be run as follows:
 
-```
+```bash
 npm run test
 npm run test:e2e
 npm run lint
+cargo test --manifest-path rust-lib/Cargo.toml
 ```
 
 Finally, you can remove all compiled and derived files by running `npm run clean`.
+
+
+## Development
+
+NPM dependencies are should be saved into correct category.
+Production dependencies are used by the backend.
+Development dependencies are only used by the frontend (not needed after building) and tests
+or they are development tools.
 
 
 ## Licenses

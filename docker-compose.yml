@@ -1,0 +1,22 @@
+name: wasm-benchmark
+
+services:
+  server:
+    build: .
+    image: wasm-benchmark
+    container_name: server
+    restart: unless-stopped
+    ports:
+      - 80:80
+    environment:
+      DATABASE_URL: "postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/wasmbenchmark"
+
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: wasmbenchmark
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+      - ./db/:/var/lib/postgresql/data/

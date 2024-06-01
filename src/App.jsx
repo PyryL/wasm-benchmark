@@ -1,7 +1,9 @@
+import { useEffect } from 'react'
 import { Title } from '@mantine/core';
 import TestItem from './components/TestItem'
 import matmulResult from './constants/matmul-result'
 import Footer from './components/Footer'
+import { pingApi } from './services/api'
 
 const App = () => {
   const tests = [
@@ -37,6 +39,16 @@ const App = () => {
     flexDirection: 'column',
     alignItems: 'flex-start',
   }
+
+  useEffect(() => {
+    (async () => {
+      try {
+        console.log('api', await pingApi())
+      } catch (err) {
+        console.error('api failed', err.message)
+      }
+    })()
+  }, [])
 
   return (
     <div style={{ padding: 10 }}>

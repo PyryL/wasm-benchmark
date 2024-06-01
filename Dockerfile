@@ -27,28 +27,24 @@ RUN npm install
 ADD rust-lib/ rust-lib/
 RUN cargo test --manifest-path rust-lib/Cargo.toml
 ADD build.sh .
-RUN npm run build rust
+RUN npm run build rust && rm -rf rust-lib/
 
 # Build React app with Vite
 ADD src/ src/
 ADD public/ public/
-ADD index.html .
-ADD vite.config.js .
-ADD postcss.config.cjs .
-RUN npm run build react
+ADD index.html vite.config.js postcss.config.cjs ./
+RUN npm run build react && \
+    rm -rf index.html vite.config.js postcss.config.cjs
 
 
 # TEST
 
-ADD playwright.config.cjs .
-ADD .eslintrc.cjs .
+ADD playwright.config.cjs .eslintrc.cjs babel.config.cjs ./
 ADD test/ test/
 ADD e2e-test/ e2e-test/
-ADD babel.config.cjs .
+ADD backend/ backend/
 
-RUN npm run lint
-RUN npm run test
-RUN npm run test:e2e
+RUN npm run lint && npm run test && npm run test:e2e
 
 
 # DEPLOY
@@ -59,7 +55,8 @@ WORKDIR /app
 
 COPY --from=build-step /app/dist/ dist/
 ADD package.json .
-RUN npm install -g http-server@^14.1.1 && npm cache clean --force
+ADD backend/ backend/
+RUN npm install --include prod --no-save && npm cache clean --force
 
 EXPOSE 80
 ENV PORT=80
@@ -67,4 +64,5 @@ ENV PORT=80
 RUN chown node .
 USER node
 
-ENTRYPOINT ["npm", "start"]
+ENTRYPOINT ["npm"]
+CMD ["start"]
