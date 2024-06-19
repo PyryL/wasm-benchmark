@@ -4,10 +4,12 @@
 # ./build.sh
 # To build only the Rust part, run
 # ./build.sh rust
+# To build only the C part, run
+# ./build.sh c
 # To build only the React part, run
 # ./build.sh react
 # Note that in order to function correctly,
-# Rust build must have been run before React build
+# Rust and C builds must have been run before React build
 
 set -e
 
@@ -21,6 +23,16 @@ build_rust() {
     cp rust-lib/pkg/rust_lib_bg.wasm public/modules/rust_lib_bg.wasm
 }
 
+build_c() {
+    # make sure that the output directory exists
+    mkdir -p public/modules
+
+    emcc c-lib/main.c -O2 -o public/modules/c_lib.js \
+        -s EXPORTED_FUNCTIONS='["_fibonacci"]' \
+        -s MODULARIZE -s EXPORT_ES6 -s ENVIRONMENT='web,worker' \
+        -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]'
+}
+
 build_react() {
     # Build React app
     vite build
@@ -29,9 +41,12 @@ build_react() {
 
 if [ "$1" == "rust" ]; then
     build_rust
+elif [ "$1" == "c" ]; then
+    build_c
 elif [ "$1" == "react" ]; then
     build_react
 else
     build_rust
+    build_c
     build_react
 fi

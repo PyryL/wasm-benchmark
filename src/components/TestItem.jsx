@@ -56,6 +56,9 @@ const TestItem = ({ title, testWorkerName, expectedResult, description }) => {
     const jsResultReport = await handleTest('js', setJsResult)
     setRustResult(-1)
     const rustResultReport = await handleTest('rust', setRustResult)
+    if (testWorkerName === 'fibonacci') {
+      await handleTest('c', val => console.log('c result', val))
+    }
     await reportBenchmarkResult(
       testWorkerName,
       jsResultReport,

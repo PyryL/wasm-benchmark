@@ -2,7 +2,14 @@ FROM node:20-bookworm AS build-step
 
 # BUILD
 
-WORKDIR /app
+WORKDIR /usr/src/
+
+# install emscripten
+RUN git clone https://github.com/emscripten-core/emsdk.git && \
+    cd emsdk/ && \
+    ./emsdk install latest && \
+    ./emsdk activate latest
+ENV PATH="/usr/src/emsdk/:/usr/src/emsdk/upstream/emscripten/:${PATH}"
 
 # install Rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -18,6 +25,7 @@ ENV PATH="/usr/local/binaryen-version_117/bin:${PATH}"
 # install browsers for E2E tests
 RUN npx playwright install --with-deps
 
+WORKDIR /app
 
 # install Node modules
 ADD package.json .
@@ -29,9 +37,14 @@ RUN cargo test --manifest-path rust-lib/Cargo.toml
 ADD build.sh .
 RUN npm run build rust && rm -rf rust-lib/
 
+# Build C package
+ADD c-lib/ c-lib/
+RUN npm run build c && rm -rf c-lib/
+
 # Build React app with Vite
 ADD src/ src/
-ADD public/ public/
+ADD public/workers/ public/workers/
+ADD public/favicon.ico public/
 ADD index.html vite.config.js postcss.config.cjs ./
 RUN npm run build react && \
     rm -rf index.html vite.config.js postcss.config.cjs
